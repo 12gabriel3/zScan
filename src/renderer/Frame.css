@@ -1,0 +1,71 @@
+.drag{
+  height: 20px;
+  flex-grow: 1;
+  -webkit-app-region: drag;
+}
+.banner{
+  height: 20px;
+  width: 100vw;
+  display: flex;
+  background-color: #1213147e;
+}
+.buttons {
+  width: 60px;
+}
+
+path {
+  stroke: black;
+  stroke-width: 1px;
+  fill: none;
+}
+
+svg.corner{
+  display: block;
+  transform-origin: center;
+}
+
+svg.button{
+  height: 10px;
+  width: 10px;
+  transition: all 0.5s ease-in-out;
+  display: none;
+  margin: auto;
+}
+
+line.button{
+    stroke-width: 1px;
+    stroke: lightgray;
+    transition: all 50ms ease-in-out;
+}
+
+button:hover line.button{
+  stroke-width: 2px;
+  stroke: white;
+}
+
+rect.white{
+  fill: lightgray;
+  transition: all 50ms ease-in-out;
+}
+
+rect.black{
+  fill: black;
+}
+
+button:hover rect.white{
+  fill: white;
+}
+
+*:hover svg.button{
+  display: block;
+}
+
+button{
+  height: 20px;
+  width: 20px;
+  justify-content: center;
+  align-items: center;
+  float: right;
+  background-color: transparent;
+  border: transparent;
+}
