@@ -1,16 +1,16 @@
 .drag{
   height: 20px;
   flex-grow: 1;
-  -webkit-app-region: drag;
+  cursor: url("../../assets/cursor3.png") 13 12, default;
 }
 .banner{
   height: 20px;
   width: 100vw;
   display: flex;
-  background-color: #1213147e;
 }
 .buttons {
-  width: 60px;
+  width: 40px;
+  cursor: url("../../assets/cursor4.png"), default;
 }
 
 path {
@@ -27,7 +27,6 @@ svg.corner{
 svg.button{
   height: 10px;
   width: 10px;
-  transition: all 0.5s ease-in-out;
   display: none;
   margin: auto;
 }
@@ -35,7 +34,7 @@ svg.button{
 line.button{
     stroke-width: 1px;
     stroke: lightgray;
-    transition: all 50ms ease-in-out;
+    transition: stroke 100ms ease-in-out, stroke-width 100ms ease-in-out;
 }
 
 button:hover line.button{
@@ -45,7 +44,7 @@ button:hover line.button{
 
 rect.white{
   fill: lightgray;
-  transition: all 50ms ease-in-out;
+  transition: fill 50ms ease-in-out;
 }
 
 rect.black{
@@ -61,6 +60,7 @@ button:hover rect.white{
 }
 
 button{
+  cursor: url("../../assets/cursor4.png"), default;
   height: 20px;
   width: 20px;
   justify-content: center;
@@ -68,4 +68,5 @@ button{
   float: right;
   background-color: transparent;
   border: transparent;
+  outline: none;
 }

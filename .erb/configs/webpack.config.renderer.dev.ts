@@ -103,12 +103,12 @@ export default merge(baseConfig, {
       // Common Image Formats
       {
         test: /\.(?:ico|gif|png|jpg|jpeg|webp)$/,
-        use: 'url-loader',
+        type: 'asset/inline',
       },
       // Sounds
       {
         test: /\.(?:wav|mp3)$/,
-        use: 'file-loader',
+        type: 'asset/resource',
       },
     ],
   },

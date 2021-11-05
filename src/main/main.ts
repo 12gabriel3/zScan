@@ -8,13 +8,14 @@
  * When running `npm run build` or `npm run build:main`, this file is compiled to
  * `./src/main.js` using webpack. This gives us some performance wins.
  */
+import iohook from 'iohook';
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import path from 'path';
-import { app, BrowserWindow, shell, ipcMain } from 'electron';
+import { app, BrowserWindow, shell, ipcMain, screen } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
-import MenuBuilder from './menu';
+// import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
 
 export default class AppUpdater {
@@ -39,6 +40,35 @@ ipcMain.on('toggle', () =>
 );
 ipcMain.on('minimize', () => mainWindow?.minimize());
 
+// move window logic
+const initialPos: { x: number; y: number } = {
+  x: 0,
+  y: 0,
+};
+let dragging = false;
+iohook.on('mousedrag', (currentPos: any) => {
+  if (dragging)
+    mainWindow?.setPosition(
+      currentPos.x - initialPos.x,
+      currentPos.y - initialPos.y
+    );
+});
+iohook.on('mouseup', (event: any) => {
+  if (event.button === 1) dragging = false;
+});
+iohook.start();
+ipcMain.on('drag', async (_event) => {
+  if (!dragging) {
+    const windowX = mainWindow?.getPosition()[0];
+    const windowY = mainWindow?.getPosition()[1];
+    if (windowX !== undefined && windowY !== undefined) {
+      const { x, y } = screen.getCursorScreenPoint();
+      initialPos.x = x - windowX;
+      initialPos.y = y - windowY;
+      dragging = true;
+    }
+  }
+});
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support');
   sourceMapSupport.install();
@@ -93,7 +123,6 @@ const createWindow = async () => {
   mainWindow.setAlwaysOnTop(true, 'screen-saver');
 
   mainWindow.loadURL(resolveHtmlPath('index.html'));
-
   mainWindow.on('ready-to-show', () => {
     if (!mainWindow) {
       throw new Error('"mainWindow" is not defined');
@@ -109,9 +138,10 @@ const createWindow = async () => {
     mainWindow = null;
   });
 
-  const menuBuilder = new MenuBuilder(mainWindow);
-  menuBuilder.buildMenu();
+  // const menuBuilder = new MenuBuilder(mainWindow);
+  // menuBuilder.buildMenu();
 
+  // mainWindow.webContents.openDevTools({ mode: 'undocked' });
   // Open urls in the user's browser
   mainWindow.webContents.on('new-window', (event, url) => {
     event.preventDefault();
@@ -135,14 +165,12 @@ app.on('window-all-closed', () => {
   }
 });
 
-app
-  .whenReady()
-  .then(() => {
-    createWindow();
-    app.on('activate', () => {
-      // On macOS it's common to re-create a window in the app when the
-      // dock icon is clicked and there are no other windows open.
-      if (mainWindow === null) createWindow();
-    });
-  })
-  .catch(console.log);
+app.on('browser-window-blur', (_event, browserWindow) =>
+  browserWindow.webContents.send('unfocus')
+);
+
+app.on('browser-window-focus', (_event, browserWindow) =>
+  browserWindow.webContents.send('focus')
+);
+
+app.on('ready', () => createWindow());
