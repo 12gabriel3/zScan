@@ -1,11 +1,5 @@
-.left {
-  flex: 1 1 auto;
-  user-select: none;
-  cursor: url("../../assets/cursor2.png"), default;
+.wrapper{
+  display: flex;
+  height: 100%;
 }
 
-.right {
-  flex: 0 0 100px;
-  user-select: none;
-  cursor: url("../../assets/cursor3.png") 13 12, default;
-}

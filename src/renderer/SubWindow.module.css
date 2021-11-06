@@ -1,0 +1,33 @@
+.window{
+  cursor: url("../../assets/cursor1.png"), default;
+  border: inset 1px #82889128;
+  bottom: 0;
+  margin: 2px;
+  flex: 1;
+  outline: none;
+  transition-property: background-color;
+  background-color: rgba(66, 79, 92, 0.667);
+}
+
+.content{
+  height: 100%;
+  overflow: hidden;
+}
+
+.glow{
+  background-image: radial-gradient(circle closest-corner at 50% 10%, rgb(164, 186, 207), transparent 70%);
+  height: 1px;
+  transition: opacity 0.4s linear;
+}
+
+.draggable {
+  margin: -3px;
+  width: 6px;
+  cursor: w-resize;
+}
+
+*, *::after, *::before {
+	-webkit-user-select: none;
+	-webkit-user-drag: none;
+	-webkit-app-region: no-drag;
+}

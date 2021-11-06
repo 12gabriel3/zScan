@@ -4,26 +4,36 @@
   cursor: url("../../assets/cursor3.png") 13 12, default;
 }
 .banner{
-  height: 20px;
   width: 100vw;
+  height: 20px;
   display: flex;
 }
 .buttons {
   width: 40px;
   cursor: url("../../assets/cursor4.png"), default;
 }
-
-path {
-  stroke: black;
-  stroke-width: 1px;
-  fill: none;
+.background{
+  top: 1px;
+  bottom: 1px;
+  height: calc(100vh - 2px);
+  width: calc(100vw - 2px);
+  transition-property: background-color, border-color;
+  border: solid 1px;
+  display: flex;
+  flex-flow: column;
 }
-
+.content{
+  margin: 0px;
+  margin-bottom: 2px;
+  flex-grow: 1;
+}
 svg.corner{
   display: block;
   transform-origin: center;
 }
-
+line.corner{
+  transition-property: stroke stroke-width;
+}
 svg.button{
   height: 10px;
   width: 10px;
@@ -32,27 +42,14 @@ svg.button{
 }
 
 line.button{
-    stroke-width: 1px;
-    stroke: lightgray;
-    transition: stroke 100ms ease-in-out, stroke-width 100ms ease-in-out;
+  stroke-width: 1px;
+  stroke: #f5f4f4;
+  transition: stroke 100ms ease-in-out, stroke-width 100ms ease-in-out;
 }
 
 button:hover line.button{
   stroke-width: 2px;
   stroke: white;
-}
-
-rect.white{
-  fill: lightgray;
-  transition: fill 50ms ease-in-out;
-}
-
-rect.black{
-  fill: black;
-}
-
-button:hover rect.white{
-  fill: white;
 }
 
 *:hover svg.button{
