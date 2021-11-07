@@ -5,6 +5,7 @@ import './Hello.css';
 import SubWindow from './SubWindow';
 import Wrapper from './Wrapper';
 import Resize from './Resize';
+import Item from './Item';
 
 export default function Hello() {
   // const [text, setText] = useState('');
@@ -29,8 +30,10 @@ export default function Hello() {
     <Window>
       <Wrapper create="columns">
         <SubWindow>TAGS AND DETAILS</SubWindow>
-        <Resize direction="left" minSize={50} maxSize={180}>
-          <SubWindow>PLAYERS</SubWindow>
+        <Resize direction="left" minSize={10} maxSize={500}>
+          <SubWindow>
+            <Item>Characters</Item>
+          </SubWindow>
         </Resize>
       </Wrapper>
     </Window>

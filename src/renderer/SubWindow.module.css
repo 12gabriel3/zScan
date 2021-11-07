@@ -1,22 +1,40 @@
 .window{
+  position: relative;
+  overflow: hidden;
   cursor: url("../../assets/cursor1.png"), default;
   border: inset 1px #82889128;
   margin: 2px;
   flex: 1;
   outline: none;
-  transition-property: background-color;
-  background-color: rgba(66, 79, 92, 0.667);
+  transition: background-color 0.4s ease-in;
+  background-color: rgba(66, 79, 92, 0.1);
 }
 
+.window:focus,.window:focus-within {
+  transition-timing-function: linear;
+  transition-duration: 250ms;
+  background-color: rgba(66, 79, 92, 0.3);
+}
 .content{
-  overflow: hidden;
   height: 100%;
 }
 
 .glow{
+  position: absolute;
   background-image: radial-gradient(circle closest-corner at 50% 10%, rgb(164, 186, 207), transparent 70%);
   height: 1px;
-  transition: opacity 0.4s linear;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  transition: opacity 0.4s ease-in;
+  transition-delay: 0;
+  opacity: 0.3;
+}
+
+.window:focus,.window:focus-within .glow{
+  transition-delay: 150ms;
+  transition-timing-function: linear;
+  opacity: 1;
 }
 
 *, *::after, *::before {

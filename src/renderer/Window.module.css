@@ -7,9 +7,20 @@
   height: 100vh;
   width: 100vw;
   transition-property: background-color, border-color;
-  border: solid 1px;
+  border: solid 1px #303235dd;
+  transition-duration: 0.4s;
+  transition-timing-function: ease-in;
+  background-color: #101112aa;
   cursor: url("../../assets/cursor3.png") 13 12, default;
+  outline: none;
 }
+.background:focus,.background:focus-within{
+  background-color: #151617dd;
+  transition-timing-function: linear;
+  transition-duration: 250ms;
+  border-color: #303235dd;
+}
+
 .content{
   box-sizing: border-box;
   padding-top: 0px;
@@ -18,11 +29,33 @@
 }
 svg.corner{
   display: block;
-  transform-origin: center;
+  position: absolute;
+  height: 3px;
+  width: 3px;
+}
+svg.right {
+  right: 0;
+}
+svg.left {
+  left: 0;
+}
+svg.bottom {
+  bottom: 0;
+}
+svg.top {
+  top: 0;
 }
 line.corner{
   transition-property: stroke stroke-width;
+  transition-duration: 250ms;
+  stroke: gray;
+  stroke-width: 1px;
 }
+.background:focus,.background:focus-within line.corner{
+  stroke: rgb(149, 173, 189);
+  stroke-width: 2px;
+}
+
 svg.button{
   height: 10px;
   width: 10px;
@@ -30,6 +63,9 @@ svg.button{
   margin: auto;
 }
 
+*:hover svg.button{
+  display: block;
+}
 line.button{
   stroke-width: 1px;
   stroke: #f5f4f4;
@@ -39,10 +75,6 @@ line.button{
 button:hover line.button{
   stroke-width: 2px;
   stroke: white;
-}
-
-*:hover svg.button{
-  display: block;
 }
 
 button{

@@ -28,12 +28,6 @@ export default class AppUpdater {
 
 let mainWindow: BrowserWindow | null = null;
 
-ipcMain.on('ipc-example', async (event, arg) => {
-  const msgTemplate = (pingPong: string) => `IPC test: ${pingPong}`;
-  console.log(msgTemplate(arg));
-  event.reply('ipc-example', msgTemplate('pong'));
-});
-
 ipcMain.on('close', () => mainWindow?.close());
 ipcMain.on('toggle', () =>
   mainWindow?.isMaximized() ? mainWindow?.unmaximize() : mainWindow?.maximize()

@@ -1,0 +1,17 @@
+.button {
+  font-family: Roboto;
+  font-size: 14px;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.button:hover{
+  background-color: rgba(66, 79, 92, 0.667);
+}
+.button:focus{
+  background-color: rgba(84, 103, 121, 0.667);
+  outline: none;
+}
+@font-face {
+  font-family: 'Roboto';
+  src: url('../../assets/fonts/Roboto-Light.ttf');
+}
