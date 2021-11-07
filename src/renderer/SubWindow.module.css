@@ -1,7 +1,6 @@
 .window{
   cursor: url("../../assets/cursor1.png"), default;
   border: inset 1px #82889128;
-  bottom: 0;
   margin: 2px;
   flex: 1;
   outline: none;
@@ -10,8 +9,8 @@
 }
 
 .content{
-  height: 100%;
   overflow: hidden;
+  height: 100%;
 }
 
 .glow{
@@ -21,7 +20,10 @@
 }
 
 .draggable {
-  margin: -3px;
+  margin-left: -3px;
+  margin-right: -3px;
+  margin-top: 3px;
+  margin-bottom: 3px;
   width: 6px;
   cursor: w-resize;
 }

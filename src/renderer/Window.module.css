@@ -1,31 +1,22 @@
-.drag{
-  height: 20px;
-  flex-grow: 1;
-  cursor: url("../../assets/cursor3.png") 13 12, default;
-}
 .banner{
   width: 100vw;
   height: 20px;
-  display: flex;
-}
-.buttons {
-  width: 40px;
-  cursor: url("../../assets/cursor4.png"), default;
 }
 .background{
-  top: 1px;
-  bottom: 1px;
-  height: calc(100vh - 2px);
-  width: calc(100vw - 2px);
+  box-sizing: border-box;
+  height: 100vh;
+  width: 100vw;
   transition-property: background-color, border-color;
   border: solid 1px;
-  display: flex;
-  flex-flow: column;
+  cursor: url("../../assets/cursor3.png") 13 12, default;
 }
 .content{
-  margin: 0px;
-  margin-bottom: 2px;
-  flex-grow: 1;
+  box-sizing: border-box;
+  padding: 1px;
+  padding-bottom: 4px;
+  padding-top: 0px;
+  width: 100%;
+  height: calc(100% - 20px);
 }
 svg.corner{
   display: block;

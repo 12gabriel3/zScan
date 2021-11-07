@@ -3,6 +3,8 @@
 import Window from './Window';
 import './Hello.css';
 import SubWindow from './SubWindow';
+import Wrapper from './Wrapper';
+import Resize from './Resize';
 
 export default function Hello() {
   // const [text, setText] = useState('');
@@ -25,10 +27,15 @@ export default function Hello() {
 
   return (
     <Window>
-      <div className="wrapper">
-        <SubWindow>TAGS AND DETAILS</SubWindow>
-        <SubWindow resizable="left">CHARACTERS</SubWindow>
-      </div>
+      <Wrapper direction="column">
+        <Wrapper direction="row">
+          <SubWindow>TAGS AND DETAILS</SubWindow>
+          <Resize direction="left" minWidth={80} maxWidth={200}>
+            <SubWindow>ADRIANA</SubWindow>
+          </Resize>
+        </Wrapper>
+        <SubWindow>ADRIANA</SubWindow>
+      </Wrapper>
     </Window>
   );
 }
