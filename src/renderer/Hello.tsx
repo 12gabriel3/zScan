@@ -27,14 +27,11 @@ export default function Hello() {
 
   return (
     <Window>
-      <Wrapper direction="column">
-        <Wrapper direction="row">
-          <SubWindow>TAGS AND DETAILS</SubWindow>
-          <Resize direction="left" minWidth={80} maxWidth={200}>
-            <SubWindow>ADRIANA</SubWindow>
-          </Resize>
-        </Wrapper>
-        <SubWindow>ADRIANA</SubWindow>
+      <Wrapper create="columns">
+        <SubWindow>TAGS AND DETAILS</SubWindow>
+        <Resize direction="left" minSize={50} maxSize={180}>
+          <SubWindow>PLAYERS</SubWindow>
+        </Resize>
       </Wrapper>
     </Window>
   );

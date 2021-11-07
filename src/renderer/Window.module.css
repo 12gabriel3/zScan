@@ -12,8 +12,6 @@
 }
 .content{
   box-sizing: border-box;
-  padding: 1px;
-  padding-bottom: 4px;
   padding-top: 0px;
   width: 100%;
   height: calc(100% - 20px);

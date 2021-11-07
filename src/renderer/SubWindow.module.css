@@ -19,15 +19,6 @@
   transition: opacity 0.4s linear;
 }
 
-.draggable {
-  margin-left: -3px;
-  margin-right: -3px;
-  margin-top: 3px;
-  margin-bottom: 3px;
-  width: 6px;
-  cursor: w-resize;
-}
-
 *, *::after, *::before {
 	-webkit-user-select: none;
 	-webkit-user-drag: none;

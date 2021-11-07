@@ -2,53 +2,67 @@
 import { ReactNode, useState, useEffect, useRef } from 'react';
 import styles from './Resize.module.css';
 
-interface Prop {
+interface ResizeProps {
   children: ReactNode;
+  direction: 'left' | 'right' | 'top' | 'bottom';
+  maxSize: number;
+  minSize: number;
 }
 
-interface Horizontal extends Prop {
-  direction: 'left' | 'right';
-  maxWidth: number;
-  minWidth: number;
-}
-
-interface Vertical extends Prop {
-  direction: 'top' | 'bottom';
-  maxHeight: number;
-  minHeight: number;
-}
-
-export default function Resize(props: Vertical | Horizontal) {
-  const { children, direction } = props;
+export default function Resize({
+  children,
+  direction,
+  maxSize,
+  minSize,
+}: ResizeProps) {
   const subWindow = useRef<HTMLHeadingElement>(null);
   const [drag, setDrag] = useState(false);
-  // const [height, setHeight] = useState(100);
-  const [width, setWidth] = useState(100);
-  let minBound: number;
-  let maxBound: number;
+  const [size, setSize] = useState((maxSize + minSize) / 2);
   let cssBounds: {
     minWidth: string;
     maxWidth: string;
     minHeight: string;
     maxHeight: string;
   };
-  if ('minWidth' in props) {
-    minBound = props.minWidth;
-    maxBound = props.maxWidth;
+  let cssDrag: {
+    marginLeft: string;
+    marginRight: string;
+    marginTop: string;
+    marginBottom: string;
+    width?: string;
+    height?: string;
+    cursor: string;
+  };
+
+  if (direction === 'left' || direction === 'right') {
     cssBounds = {
-      minWidth: `${minBound}px`,
-      maxWidth: `${maxBound}px`,
+      minWidth: `${minSize}px`,
+      maxWidth: `${maxSize}px`,
       minHeight: 'none',
       maxHeight: 'none',
     };
+    cssDrag = {
+      marginLeft: '-3px',
+      marginRight: '-3px',
+      marginTop: '3px',
+      marginBottom: '3px',
+      width: '6px',
+      cursor: 'w-resize',
+    };
   } else {
-    minBound = props.minHeight;
-    maxBound = props.maxHeight;
     cssBounds = {
-      minHeight: `${minBound}px`,
-      maxHeight: `${maxBound}px`,
+      minHeight: `${minSize}px`,
+      maxHeight: `${maxSize}px`,
       minWidth: 'none',
       maxWidth: 'none',
+    };
+    cssDrag = {
+      marginLeft: '3px',
+      marginRight: '3px',
+      marginTop: '-3px',
+      marginBottom: '-3px',
+      height: '6px',
+      cursor: 'n-resize',
     };
   }
 
@@ -61,29 +75,27 @@ export default function Resize(props: Vertical | Horizontal) {
 
     function move(event: MouseEvent) {
       if (drag) {
-        let mov: number;
         switch (direction) {
           case 'left':
-            mov = -event.movementX;
+            setSize((s) => s - event.movementX);
             break;
           case 'right':
-            mov = event.movementX;
+            setSize((s) => s + event.movementX);
             break;
           case 'bottom':
-            mov = -event.movementY;
+            setSize((s) => s + event.movementY);
             break;
           case 'top':
-            mov = event.movementY;
+            setSize((s) => s - event.movementY);
             break;
           default:
             break;
         }
-        setWidth((w) => w + mov);
       }
     }
     function disableDrag() {
       setDrag(false);
-      setWidth((w) => bound(w, minBound, maxBound));
+      setSize((s) => bound(s, minSize, maxSize));
     }
     document.addEventListener('mouseup', disableDrag);
     document.addEventListener('mousemove', move);
@@ -91,7 +103,7 @@ export default function Resize(props: Vertical | Horizontal) {
       document.removeEventListener('mouseup', disableDrag);
       document.removeEventListener('mousemove', move);
     };
-  }, [drag, direction, minBound, maxBound]);
+  }, [drag, direction, minSize, maxSize]);
 
   return (
     <>
@@ -102,13 +114,14 @@ export default function Resize(props: Vertical | Horizontal) {
             event.stopPropagation();
             setDrag(true);
           }}
+          style={cssDrag}
         />
       )}
       <div
         ref={subWindow}
         className={styles.window}
         style={{
-          width: `${width}px`,
+          flex: `0 0 ${size}px`,
           ...cssBounds,
         }}
       >
