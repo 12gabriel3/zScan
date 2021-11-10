@@ -1,8 +1,7 @@
-import { ReactNode } from 'react';
+import { Prop } from './renderer';
 import styles from './Wrapper.module.css';
 
-interface WrapperProps {
-  children: ReactNode;
+interface WrapperProps extends Prop {
   create: 'columns' | 'rows';
 }
 

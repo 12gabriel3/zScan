@@ -1,0 +1,59 @@
+.background{
+  box-shadow: inset 0px 0px 0px 1px #303235dd;
+  background-color: #070707;
+  color: lightgray;
+  padding-top: 5px;
+  padding-bottom: 2px;
+  padding-left: 10px;
+  padding-right: 10px;
+
+}
+.wrapper {
+
+  position: absolute;
+  transform: translate(-50%, 0);
+  transition-property: opacity;
+  transition-delay: 100ms;
+  transition-duration: 0s;
+  opacity: 0;
+}
+.text {
+  font-family: EveSans;
+  font-size: 14px;
+  color: lightgray;
+  font-kerning: normal;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+@font-face {
+  font-family: 'EveSans';
+  src: url('../../assets/fonts/evesansneue-regular.otf');
+}
+.show{
+  opacity: 1;
+  transition-delay: 400ms;
+}
+.topArrow{
+  position: relative;
+  left: 50%;
+  transform: translate(-50%, 0);
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+
+  border-top: 8px solid #303235dd;
+}
+.arrow {
+  position: relative;
+  left: 50%;
+  top: -10px;
+  transform: translate(-50%, 0);
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+
+  border-top: 8px solid #070707;
+}

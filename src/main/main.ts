@@ -27,12 +27,27 @@ export default class AppUpdater {
 }
 
 let mainWindow: BrowserWindow | null = null;
-
+let tooltip: BrowserWindow | null = null;
 ipcMain.on('close', () => mainWindow?.close());
 ipcMain.on('toggle', () =>
   mainWindow?.isMaximized() ? mainWindow?.unmaximize() : mainWindow?.maximize()
 );
 ipcMain.on('minimize', () => mainWindow?.minimize());
+
+ipcMain.on('showtooltip', (_event, { top, left, width, height, content }) => {
+  const [x, y] = mainWindow?.getPosition() || [0, 0];
+  tooltip?.webContents.send('showtooltip', {
+    width,
+    height,
+    content,
+    top: top + y,
+    left: left + x,
+  });
+});
+
+ipcMain.on('hidetooltip', (_event, ...args) => {
+  tooltip?.webContents.send('hidetooltip', ...args);
+});
 
 // move window logic
 const initialPos: { x: number; y: number } = {
@@ -142,6 +157,21 @@ const createWindow = async () => {
     shell.openExternal(url);
   });
 
+  tooltip = new BrowserWindow({
+    show: true,
+    focusable: false,
+    frame: false,
+    transparent: true,
+    parent: mainWindow || undefined,
+    webPreferences: {
+      devTools: false,
+      preload: path.join(__dirname, 'preload.js'),
+    },
+  });
+  tooltip.setIgnoreMouseEvents(true);
+  tooltip.setFullScreen(true);
+  tooltip.loadURL('http://localhost:1212/#/tooltip');
+  tooltip.show();
   // Remove this if your app does not use auto updates
   // eslint-disable-next-line
   new AppUpdater();
@@ -158,13 +188,5 @@ app.on('window-all-closed', () => {
     app.quit();
   }
 });
-
-app.on('browser-window-blur', (_event, browserWindow) =>
-  browserWindow.webContents.send('unfocus')
-);
-
-app.on('browser-window-focus', (_event, browserWindow) =>
-  browserWindow.webContents.send('focus')
-);
 
 app.on('ready', () => createWindow());

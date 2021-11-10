@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/no-noninteractive-tabindex */
 import styles from './Window.module.css';
 import hover from '../../assets/hover.wav';
 import { Prop } from './renderer';

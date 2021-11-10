@@ -13,9 +13,10 @@
 .window:focus,.window:focus-within {
   transition-timing-function: linear;
   transition-duration: 250ms;
-  background-color: rgba(66, 79, 92, 0.3);
+  background-color: rgba(43, 55, 68, 0.3);
 }
 .content{
+  box-sizing: content-box;
   height: 100%;
 }
 

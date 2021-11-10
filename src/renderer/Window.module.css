@@ -3,26 +3,30 @@
   height: 20px;
 }
 .background{
-  box-sizing: border-box;
+  position: absolute;
+  left: 0;
+  top: 0;
   height: 100vh;
   width: 100vw;
-  transition-property: background-color, border-color;
-  border: solid 1px #303235dd;
+  transition-property: background-color, box-shadow;
   transition-duration: 0.4s;
   transition-timing-function: ease-in;
   background-color: #101112aa;
   cursor: url("../../assets/cursor3.png") 13 12, default;
   outline: none;
+  overflow: hidden;
+  box-shadow: inset 0px 0px 0px 1px #303235dd;
 }
 .background:focus,.background:focus-within{
   background-color: #151617dd;
   transition-timing-function: linear;
   transition-duration: 250ms;
-  border-color: #303235dd;
+  box-shadow: inset 0px 0px 0px 1px #37393ddd;
 }
 
 .content{
   box-sizing: border-box;
+  padding: 1px;
   padding-top: 0px;
   width: 100%;
   height: calc(100% - 20px);
@@ -34,7 +38,7 @@ svg.corner{
   width: 3px;
 }
 svg.right {
-  right: 0;
+  right: 0px;
 }
 svg.left {
   left: 0;

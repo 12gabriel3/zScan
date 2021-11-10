@@ -1,0 +1,14 @@
+.window{
+  flex: 0 0 auto;
+  display: flex;
+  overflow: hidden;
+}
+
+.draggable {
+  position: relative;
+  margin: -5px;
+  margin-left: 3px;
+  margin-right: 3px;
+  cursor: n-resize;
+  flex: 0 0 10px;
+}
