@@ -8,6 +8,7 @@
   font-kerning: normal;
   overflow: hidden;
   white-space: nowrap;
+  will-change: background-color;
 }
 
 .button:hover .highlight{

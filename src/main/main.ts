@@ -124,6 +124,7 @@ const createWindow = async () => {
     minHeight: 100,
     icon: getAssetPath('icon.png'),
     webPreferences: {
+      devTools: false,
       preload: path.join(__dirname, 'preload.js'),
     },
     frame: false,
@@ -163,13 +164,14 @@ const createWindow = async () => {
     frame: false,
     transparent: true,
     parent: mainWindow || undefined,
+    resizable: false,
     webPreferences: {
       devTools: false,
       preload: path.join(__dirname, 'preload.js'),
     },
   });
   tooltip.setIgnoreMouseEvents(true);
-  tooltip.setFullScreen(true);
+  tooltip.maximize();
   tooltip.loadURL('http://localhost:1212/#/tooltip');
   tooltip.show();
   // Remove this if your app does not use auto updates

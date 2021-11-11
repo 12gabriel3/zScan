@@ -1,6 +1,6 @@
 .background{
   box-shadow: inset 0px 0px 0px 1px #303235dd;
-  background-color: #070707;
+  background-color: #121a20;
   color: lightgray;
   padding-top: 5px;
   padding-bottom: 2px;
@@ -19,7 +19,7 @@
 }
 .text {
   font-family: EveSans;
-  font-size: 14px;
+  font-size: 13px;
   color: lightgray;
   font-kerning: normal;
   overflow: hidden;
@@ -55,5 +55,5 @@
   border-left: 8px solid transparent;
   border-right: 8px solid transparent;
 
-  border-top: 8px solid #070707;
+  border-top: 8px solid #121a20;
 }

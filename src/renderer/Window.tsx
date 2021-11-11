@@ -1,9 +1,9 @@
 /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
 import styles from './Window.module.css';
-import hover from '../../assets/hover.wav';
 import { Prop } from './renderer';
+import Tooltip from './Tooltip';
+import { hover } from './Audio';
 
-const audio = new Audio(hover);
 export default function Window({ children }: Prop) {
   const corners = (
     <>
@@ -34,27 +34,31 @@ export default function Window({ children }: Prop) {
     >
       {corners}
       <div className={styles.banner}>
-        <button
-          type="button"
-          onClick={() => window.electron.ipcRenderer.send('close')}
-          onMouseEnter={() => audio.play()}
-          onMouseDown={(event) => event.stopPropagation()}
-        >
-          <svg className={styles.button}>
-            <line className={styles.button} x1="0" y1="1" x2="7" y2="8" />
-            <line className={styles.button} x1="7" y1="1" x2="0" y2="8" />
-          </svg>
-        </button>
-        <button
-          type="button"
-          onClick={() => window.electron.ipcRenderer.send('minimize')}
-          onMouseEnter={() => audio.play()}
-          onMouseDown={(event) => event.stopPropagation()}
-        >
-          <svg className={styles.button}>
-            <line className={styles.button} x1="0" y1="7" x2="8" y2="7" />
-          </svg>
-        </button>
+        <Tooltip className={styles.button} content="Close">
+          <button
+            type="button"
+            onClick={() => window.electron.ipcRenderer.send('close')}
+            onMouseEnter={() => hover.play()}
+            onMouseDown={(event) => event.stopPropagation()}
+          >
+            <svg className={styles.button}>
+              <line className={styles.button} x1="0" y1="1" x2="7" y2="8" />
+              <line className={styles.button} x1="7" y1="1" x2="0" y2="8" />
+            </svg>
+          </button>
+        </Tooltip>
+        <Tooltip className={styles.button} content="Minimize">
+          <button
+            type="button"
+            onClick={() => window.electron.ipcRenderer.send('minimize')}
+            onMouseEnter={() => hover.play()}
+            onMouseDown={(event) => event.stopPropagation()}
+          >
+            <svg className={styles.button}>
+              <line className={styles.button} x1="0" y1="7" x2="8" y2="7" />
+            </svg>
+          </button>
+        </Tooltip>
       </div>
       <div className={styles.content}>{children}</div>
     </div>

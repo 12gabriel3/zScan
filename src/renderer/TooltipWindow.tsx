@@ -19,7 +19,7 @@ export default function TooltipWindow() {
     function setInfo(msg: Message) {
       const { top, left, width, content } = msg;
       setText(content);
-      setDimensions({ top: top - 40, left: left + width / 2 });
+      setDimensions({ top: top - 32, left: left + width / 2 });
       setShow(true);
     }
     window.electron.ipcRenderer.on('showtooltip', setInfo);

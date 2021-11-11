@@ -4,9 +4,14 @@ import styles from './Tooltip.module.css';
 
 interface TooltipProps extends Prop {
   content: string;
+  className?: string;
 }
 
-export default function Tooltip({ content, children }: TooltipProps) {
+export default function Tooltip({
+  content,
+  children,
+  className,
+}: TooltipProps) {
   const ref = useRef<HTMLInputElement>(null);
   function sendInfo() {
     const rect = ref?.current?.getBoundingClientRect();
@@ -22,7 +27,7 @@ export default function Tooltip({ content, children }: TooltipProps) {
   return (
     <div
       ref={ref}
-      className={styles.tooltip}
+      className={`${styles.tooltip} ${className}`}
       onMouseEnter={sendInfo}
       onMouseLeave={() => window.electron.ipcRenderer.send('hidetooltip')}
     >
