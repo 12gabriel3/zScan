@@ -1,10 +1,12 @@
 /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
+import { useMemo } from 'react';
 import styles from './Window.module.css';
 import { Prop } from './renderer';
 import Tooltip from './Tooltip';
-import { hover } from './Audio';
+import { playHover } from './Audio';
 
 export default function Window({ children }: Prop) {
+  const audio = useMemo(() => new Audio(), []);
   const corners = (
     <>
       <svg className={`${styles.top} ${styles.corner} ${styles.left}`}>
@@ -38,7 +40,7 @@ export default function Window({ children }: Prop) {
           <button
             type="button"
             onClick={() => window.electron.ipcRenderer.send('close')}
-            onMouseEnter={() => hover.play()}
+            onMouseEnter={() => playHover(audio)}
             onMouseDown={(event) => event.stopPropagation()}
           >
             <svg className={styles.button}>
@@ -51,7 +53,7 @@ export default function Window({ children }: Prop) {
           <button
             type="button"
             onClick={() => window.electron.ipcRenderer.send('minimize')}
-            onMouseEnter={() => hover.play()}
+            onMouseEnter={() => playHover(audio)}
             onMouseDown={(event) => event.stopPropagation()}
           >
             <svg className={styles.button}>

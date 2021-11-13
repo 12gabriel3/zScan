@@ -1,4 +1,5 @@
-import { ReactElement, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+import Swagger from './APICLient';
 import styles from './CharList.module.css';
 import Item from './Item';
 import ResizeLeft from './ResizeLeft';
@@ -12,7 +13,41 @@ interface CharListProps {
 export default function CharList({ onSelect }: CharListProps) {
   const [clipboard, setClipboard] = useState('');
   const [selected, setSelected] = useState<Character | null>(null);
-  const [characters, setCharacters] = useState<ReactElement[] | null>(null);
+  const [characters, setCharacters] = useState<Character[]>([]);
+  useEffect(() => {
+    async function fetchId(name: string) {
+      const client = await Swagger;
+      const result = await client.apis.Search.get_search({
+        categories: 'character',
+        search: name,
+        strict: true,
+      }).catch(() => null);
+      if (result?.obj.character) {
+        // { name, id: result.obj.character[0] }
+        return { name, id: result.obj.character[0] };
+      }
+      return null;
+    }
+    async function getChars() {
+      const chars = await Promise.all(
+        clipboard.split('\n').map((c) => {
+          return fetchId(c);
+        })
+      );
+      function notNull<T>(argument: T | null): argument is T {
+        return argument !== null;
+      }
+      const filtered = chars.filter(notNull);
+      if (filtered.length) setCharacters(filtered);
+    }
+    getChars();
+  }, [clipboard]);
+
+  function handleSelect(character: Character) {
+    onSelect(character);
+    setSelected(character);
+  }
+
   function clipboardSubscribe(callback: (text: string) => void) {
     let prev = '';
     return setInterval(() => {
@@ -28,34 +63,25 @@ export default function CharList({ onSelect }: CharListProps) {
     const timer = clipboardSubscribe((txt) => setClipboard(txt));
     return () => clearInterval(timer);
   }, []);
-
-  useEffect(() => {
-    function handleSelect(character: Character) {
-      onSelect(character);
-      setSelected(character);
-    }
-    function genList() {
-      return clipboard.split('\n').reduce((list, name) => {
-        const item = (
-          <Item
-            key={name}
-            CharacterName={name}
-            className={name === selected?.name ? 'selected' : ''}
-            onClick={(char: Character) => handleSelect(char)}
-          />
-        );
-        if (item) return list.concat(item);
-        return list;
-      }, [] as JSX.Element[]);
-    }
-    const chars = genList();
-    if (chars.length) setCharacters(genList());
-  }, [clipboard, onSelect, selected?.name]);
-
+  const elements = characters.map(({ name, id }) => {
+    return (
+      <Item
+        key={name}
+        characterName={name}
+        className={name === selected?.name ? styles.selected : ''}
+        onClick={() => handleSelect({ name, id })}
+      />
+    );
+  });
+  if(characters.length === 1) onSelect(characters[0]);
   return (
-    (characters?.length && characters.length > 1 && (
-      <ResizeLeft>
-        <SubWindow className={styles.scrollable}>{characters}</SubWindow>
+    (elements?.length && (
+      <ResizeLeft
+        className={`${styles.characters} ${
+          elements.length === 1 && styles.hidden
+        }`}
+      >
+        <SubWindow className={`${styles.scrollable} `}>{elements}</SubWindow>
       </ResizeLeft>
     )) ||
     null

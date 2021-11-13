@@ -1,29 +1,18 @@
 .highlight {
+  transition-duration: 0.1s;
+  transition-property: background-color;
+  will-change: background-color;
+}
+.text {
   padding-left: 20px;
   font-family: EveSans;
   font-size: 13px;
   color: lightgray;
-  transition-duration: 0.1s;
-  transition-property: background-color;
-  font-kerning: normal;
-  overflow: hidden;
   white-space: nowrap;
-  will-change: background-color;
 }
-
 .button:hover .highlight{
-  background-color: rgba(66, 79, 92, 0.667);
+  background-color: rgba(39, 47, 54, 0.667);
   transition-duration: 0s;
-}
-.button:focus .highlight{
-  background-color: rgba(70, 85, 99, 0.667);
-  animation: flash ease-out 0.5s;
-}
-
-@keyframes flash {
-  0% {background-color: rgba(66, 79, 92, 0.667)}
-  10% {background-color: rgba(88, 115, 143, 0.667)}
-  100% {background-color: rgba(70, 85, 99, 0.667)}
 }
 @font-face {
   font-family: 'EveSans';

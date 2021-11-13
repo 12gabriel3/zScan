@@ -1,3 +1,7 @@
+.characters{
+  min-width: 50px;
+  max-width: 200px;
+}
 
 .scrollable {
   overflow-y: auto;
@@ -18,4 +22,19 @@
 
 .scrollable::-webkit-scrollbar-thumb:active{
   background-color: rgb(132, 150, 167);
+}
+
+.hidden{
+  display: none !important;
+}
+
+.selected{
+  background-color: rgba(70, 85, 99, 0.667);
+  animation: flash ease-out 0.5s !important;
+}
+
+@keyframes flash {
+  0% {background-color: rgba(66, 79, 92, 0.667)}
+  10% {background-color: rgba(88, 115, 143, 0.667)}
+  100% {background-color: rgba(70, 85, 99, 0.667)}
 }

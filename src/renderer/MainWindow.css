@@ -1,7 +1,3 @@
-.characters{
-  min-width: 50px;
-  max-width: 200px;
-}
 .white {
   color: lightgray;
 }
@@ -40,9 +36,6 @@
   width: 20px;
 }
 
-.selected{
-  background-color: rgba(70, 85, 99, 0.667);
-}
 
 .line{
   position: relative;
