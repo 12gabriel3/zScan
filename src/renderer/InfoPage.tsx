@@ -1,6 +1,6 @@
 import { DateTime, DurationLikeObject } from 'luxon';
 import { useEffect, useState } from 'react';
-import Swagger from './APICLient';
+import Swagger, { Zkill } from './APICLient';
 import Columns from './Columns';
 import Portrait from './Portrait';
 import { Character } from './types';
@@ -11,6 +11,8 @@ interface InfoPageProps {
 
 export default function InfoPage({ character }: InfoPageProps) {
   const [pageInfo, setPageInfo] = useState<Character | null>(null);
+  const [cyno, setCyno] = useState<boolean | undefined>(undefined);
+  // const [kills, setKills] = useState([]);
   useEffect(() => {
     async function fetchPublicInfo(character_id: number) {
       const client = await Swagger;
@@ -19,7 +21,51 @@ export default function InfoPage({ character }: InfoPageProps) {
       }).catch(() => null);
       setPageInfo({ id: character_id, ...result.obj });
     }
-    if (character.id) fetchPublicInfo(character.id);
+    // async function fetchKillsList(character_id: number) {
+    //   return (await Zkill.kills(character_id)).map((k: any) => {
+    //     return { killmail_id: k.killmail_id, killmail_hash: k.zkb.hash };
+    //   });
+    // }
+    async function fetchKM(id: any) {
+      const client = await Swagger;
+      return (
+        await client.apis.Killmails.get_killmails_killmail_id_killmail_hash(id)
+      ).obj;
+    }
+    async function fetchLossesList(character_id: number) {
+      return (await Zkill.losses(character_id)).map((k: any) => {
+        return { killmail_id: k.killmail_id, killmail_hash: k.zkb.hash };
+      });
+    }
+    function isCyno(km: any, c: boolean | undefined){
+      if (c) return c;
+      const items: number[] = km.victim.items.map(
+        (item: any) => item.item_type_id
+      );
+      if (items.includes(21096) || items.includes(28646)){
+        console.log(km);
+        return true;
+      };
+      return undefined;
+    }
+
+    async function calculateKMInfo(character_id: number) {
+      const kmList = await fetchLossesList(character_id);
+      setCyno(undefined);
+      await Promise.all(
+        kmList.reverse().map(async (km: any) => {
+          const kill = await fetchKM(km);
+          setCyno((c) => isCyno(kill, c));
+          return kill;
+        })
+      ).catch(() => null);
+      setCyno((c) => c === true);
+    }
+
+    if (character.id) {
+      fetchPublicInfo(character.id);
+      calculateKMInfo(character.id);
+    }
   }, [character]);
 
   function toDuration(birthday: string, short = false): string {
@@ -67,7 +113,9 @@ export default function InfoPage({ character }: InfoPageProps) {
     }
     return '';
   }
-
+  let cynoText = 'Loading...';
+  if (cyno) cynoText = 'Is Cyno!';
+  else if(cyno === false) cynoText = 'Not Cyno';
   return (
     pageInfo && (
       <Columns>
@@ -82,6 +130,7 @@ export default function InfoPage({ character }: InfoPageProps) {
           <div className="text">
             {pageInfo.birthday ? toDuration(pageInfo.birthday) : ''}
           </div>
+          <div className="text">{cynoText}</div>
         </div>
       </Columns>
     )
