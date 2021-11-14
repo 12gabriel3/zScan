@@ -29,11 +29,16 @@ export default function CharList({ onSelect }: CharListProps) {
       return null;
     }
     async function getChars() {
-      const chars = await Promise.all(
-        clipboard.split('\n').map((c) => {
-          return fetchId(c);
-        })
-      );
+      let cbFiltered: string[] = [
+        clipboard.replaceAll(/[^a-zA-Z0-9_\-\n ]/g, ''),
+      ];
+      if (clipboard.includes('\n'))
+        cbFiltered = clipboard
+          .replaceAll(/[^a-zA-Z0-9_\-\n ]/g, '')
+          .split('\n');
+      cbFiltered = cbFiltered.filter((c) => c !== '');
+      cbFiltered = [...new Set(cbFiltered)];
+      const chars = await Promise.all(cbFiltered.map((c) => fetchId(c)));
       function notNull<T>(argument: T | null): argument is T {
         return argument !== null;
       }
@@ -73,7 +78,7 @@ export default function CharList({ onSelect }: CharListProps) {
       />
     );
   });
-  if(characters.length === 1) onSelect(characters[0]);
+  if (characters.length === 1) onSelect(characters[0]);
   return (
     (elements?.length && (
       <ResizeLeft

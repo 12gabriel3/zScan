@@ -1,0 +1,49 @@
+.circular{
+  height:32px;
+  width: 32px;
+  position: relative;
+  transform: scale(0.8);
+  transition: opacity 0.4s ease;
+}
+.icon {
+  position: absolute;
+  height: 32px;
+  width: 32px;
+  z-index: 9;
+  transition: filter 0.4s ease;
+}
+.circular .inner{
+  position: absolute;
+  z-index: 6;
+  top: 50%;
+  left: 50%;
+  height: 28px;
+  width: 28px;
+  margin: -14px 0 0 -14px;
+  background: #282c30;
+  border-radius: 100%;
+
+}
+.circular .bar{
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  border-radius: 100%;
+  clip: rect(0px, 64px, 64px, 16px);
+}
+.circle .bar .progress{
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  border-radius: 100%;
+  clip: rect(0px, 16px, 64px, 0px);
+  background: #4f779e;
+}
+.circle .left .progress{
+  z-index:1;
+}
+.circle .right {
+  transform: rotate(180deg);
+  z-index:3;
+}
+

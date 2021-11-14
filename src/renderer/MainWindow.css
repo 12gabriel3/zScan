@@ -36,7 +36,9 @@
   width: 20px;
 }
 
-
+.hidden{
+  opacity: 0;
+}
 .line{
   position: relative;
   height: 1px;
