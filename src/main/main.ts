@@ -92,7 +92,7 @@ iohook.on('mouseup', (event: any) => {
   if (event.button === 1) dragging = false;
 });
 iohook.start();
-ipcMain.on('drag', async (_event) => {
+ipcMain.on('drag', async () => {
   if (!dragging) {
     const windowX = mainWindow?.getPosition()[0];
     const windowY = mainWindow?.getPosition()[1];
@@ -148,7 +148,7 @@ const createWindow = async () => {
     y: store.get('y') as number,
     width: store.get('width') as number,
     height: store.get('height') as number,
-    minWidth: 270,
+    minWidth: 255,
     minHeight: 100,
     icon: getAssetPath('icon.png'),
     webPreferences: {
@@ -199,7 +199,7 @@ const createWindow = async () => {
   });
   tooltip.setIgnoreMouseEvents(true);
   tooltip.maximize();
-  tooltip.loadURL('http://localhost:1212/#/tooltip');
+  tooltip.loadURL(resolveHtmlPath('index.html').concat('#/tooltip'));
   tooltip.show();
   // Remove this if your app does not use auto updates
   // eslint-disable-next-line

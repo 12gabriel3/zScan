@@ -1,13 +1,12 @@
 {
-  "name": "electron-react-boilerplate",
-  "productName": "electron-react-boilerplate",
-  "version": "4.3.1",
-  "description": "Electron application boilerplate based on React, React Router, Webpack, React Hot Loader for rapid application development",
+  "name": "zscan",
+  "productName": "zScan",
+  "version": "0.0.1",
+  "description": "Third party intel tool for the game Eve Online",
   "main": "./dist/main/main.js",
   "author": {
-    "name": "Electron React Boilerplate Maintainers",
-    "email": "electronreactboilerplate@gmail.com",
-    "url": "https://github.com/electron-react-boilerplate"
+    "name": "Gabriel Aguiar",
+    "email": "aguiargab@gmail.com"
   },
   "scripts": {
     "electron-rebuild": "node -r ts-node/register ../../.erb/scripts/electron-rebuild.js",
@@ -17,7 +16,7 @@
   "dependencies": {
     "iohook": "^0.9.3"
   },
-  "license": "MIT",
+  "license": "GPLv3",
   "iohook": {
     "targets": [
       "electron-87"
