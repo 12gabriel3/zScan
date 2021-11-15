@@ -40,11 +40,11 @@ const schema = {
   },
   x: {
     type: 'number',
-    default: 400,
+    default: 1000,
   },
   y: {
     type: 'number',
-    default: 300,
+    default: 500,
   },
 } as const;
 const store = new Store({ schema });

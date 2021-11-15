@@ -87,22 +87,19 @@
     ],
     "publish": {
       "provider": "github",
-      "owner": "electron-react-boilerplate",
-      "repo": "electron-react-boilerplate"
+      "owner": "12gabriel3",
+      "repo": "zscan"
     }
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/electron-react-boilerplate/electron-react-boilerplate.git"
+    "url": "git+https://github.com/12gabriel3/zScan.git"
   },
   "author": {
     "name": "Gabriel Aguiar",
     "email": "aguiargab@gmail.com"
   },
   "license": "GPLv3",
-  "bugs": {
-    "url": "https://github.com/electron-react-boilerplate/electron-react-boilerplate/issues"
-  },
   "keywords": [
     "eveonline",
     "eve",
@@ -110,7 +107,7 @@
     "zkillboard",
     "zscan"
   ],
-  "homepage": "https://github.com/electron-react-boilerplate/electron-react-boilerplate#readme",
+  "homepage": "https://github.com/12gabriel3/zScan.git",
   "jest": {
     "testURL": "http://localhost/",
     "testEnvironment": "jsdom",
