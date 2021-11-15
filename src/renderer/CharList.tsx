@@ -23,7 +23,6 @@ export default function CharList({ onSelect }: CharListProps) {
         strict: true,
       }).catch(() => null);
       if (result?.obj.character) {
-        // { name, id: result.obj.character[0] }
         return { name, id: result.obj.character[0] };
       }
       return null;
@@ -60,12 +59,12 @@ export default function CharList({ onSelect }: CharListProps) {
       }
       cbFiltered = cbFiltered.filter((c) => c !== '');
       cbFiltered = [...new Set(cbFiltered)];
-      const chars = await Promise.all(cbFiltered.map((c) => fetchId(c)));
-      function notNull<T>(argument: T | null): argument is T {
-        return argument !== null;
-      }
-      const filtered = chars.filter(notNull);
-      if (filtered.length) setCharacters(filtered);
+      const first = await fetchId(cbFiltered[0]);
+      if (first) setCharacters([first]);
+      cbFiltered.slice(1).forEach(async (c) => {
+        const id = await fetchId(c);
+        if (id) setCharacters((chars) => chars.concat(id));
+      });
     }
     getChars();
   }, [clipboard]);
