@@ -45,7 +45,6 @@ export default function CharList({ onSelect }: CharListProps) {
               match &&
               parseInt(match[0], 10) > 90000000 &&
               parseInt(match[0], 10) < 2147483647
-
             ) {
               return v.split('>')[1];
             }

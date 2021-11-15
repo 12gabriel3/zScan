@@ -70,12 +70,6 @@ export default function InfoPage({ character }: InfoPageProps) {
       return true;
     }
 
-    // function sigmoid(x: number, k: number) {
-    //   return (x - k * x) / (k - 2 * k * Math.abs(x) + 1);
-    // }
-    // function norm(val: number, max: number, min: number) {
-    //   return (val - min) / (max - min);
-    // }
     async function calculateKMInfo(character_id: number) {
       const lossesList = await fetchLossesList(character_id);
       let cyno = 0;

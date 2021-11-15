@@ -12,6 +12,7 @@ import iohook from 'iohook';
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import path from 'path';
+import Store from 'electron-store';
 import { app, BrowserWindow, shell, ipcMain, screen } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
@@ -28,7 +29,32 @@ export default class AppUpdater {
 
 let mainWindow: BrowserWindow | null = null;
 let tooltip: BrowserWindow | null = null;
-ipcMain.on('close', () => mainWindow?.close());
+const schema = {
+  width: {
+    type: 'number',
+    default: 400,
+  },
+  height: {
+    type: 'number',
+    default: 300,
+  },
+  x: {
+    type: 'number',
+    default: 400,
+  },
+  y: {
+    type: 'number',
+    default: 300,
+  },
+} as const;
+const store = new Store({ schema });
+ipcMain.on('close', () => {
+  store.set('height', mainWindow?.getBounds().height);
+  store.set('width', mainWindow?.getBounds().width);
+  store.set('x', mainWindow?.getBounds().x);
+  store.set('y', mainWindow?.getBounds().y);
+  mainWindow?.close();
+});
 ipcMain.on('toggle', () =>
   mainWindow?.isMaximized() ? mainWindow?.unmaximize() : mainWindow?.maximize()
 );
@@ -118,8 +144,10 @@ const createWindow = async () => {
 
   mainWindow = new BrowserWindow({
     show: false,
-    width: 400,
-    height: 300,
+    x: store.get('x') as number,
+    y: store.get('y') as number,
+    width: store.get('width') as number,
+    height: store.get('height') as number,
     minWidth: 270,
     minHeight: 100,
     icon: getAssetPath('icon.png'),

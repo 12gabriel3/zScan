@@ -28,7 +28,9 @@ export default function CorpPortrait({ id }: CorpPortraitProps) {
           className="corporationImage"
           src={`https://images.evetech.net/corporations/${id}/logo?tenant=tranquility&size=32`}
           onDoubleClick={() =>
-            window.electron.shell.openExternal(`https://zkillboard.com/corporation/${id}/`)
+            window.electron.shell.openExternal(
+              `https://zkillboard.com/corporation/${id}/`
+            )
           }
         />
       </Tooltip>
