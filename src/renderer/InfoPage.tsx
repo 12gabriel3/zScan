@@ -160,7 +160,6 @@ export default function InfoPage({ character }: InfoPageProps) {
     }
     return '';
   }
-  console.log(cynoScore);
   return (
     pageInfo && (
       <Columns>

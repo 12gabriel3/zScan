@@ -27,6 +27,11 @@ export default function AlliancePortrait({ id }: AlliancePortraitProps) {
         <img
           className="allianceImage"
           src={`https://images.evetech.net/alliances/${id}/logo?tenant=tranquility&size=32`}
+          onDoubleClick={() =>
+            window.electron.shell.openExternal(
+              `https://zkillboard.com/alliance/${id}/`
+            )
+          }
         />
       </Tooltip>
     </div>

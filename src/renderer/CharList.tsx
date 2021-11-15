@@ -28,14 +28,37 @@ export default function CharList({ onSelect }: CharListProps) {
       }
       return null;
     }
+
     async function getChars() {
-      let cbFiltered: string[] = [
-        clipboard.replaceAll(/[^a-zA-Z0-9_\-\n ]/g, ''),
-      ];
-      if (clipboard.includes('\n'))
+      let cbFiltered: string[] = [];
+      if (clipboard.includes('</url>')) {
         cbFiltered = clipboard
-          .replaceAll(/[^a-zA-Z0-9_\-\n ]/g, '')
-          .split('\n');
+          .replaceAll('\n', '')
+          .split('>')
+          .slice(1)
+          .join('>')
+          .split('</url>')
+          .filter((v) => v.length > 1)
+          .map((v) => {
+            const match = v.match(/(?<=\/\/)(.*?)(?=>)/);
+            if (
+              match &&
+              parseInt(match[0], 10) > 90000000 &&
+              parseInt(match[0], 10) < 2147483647
+
+            ) {
+              return v.split('>')[1];
+            }
+            return '';
+          })
+          .filter((v) => v.length > 1);
+      } else {
+        cbFiltered = [clipboard.replaceAll(/[^a-zA-Z0-9_\-\n ]/g, '')];
+        if (clipboard.includes('\n'))
+          cbFiltered = clipboard
+            .replaceAll(/[^a-zA-Z0-9_\-\n ]/g, '')
+            .split('\n');
+      }
       cbFiltered = cbFiltered.filter((c) => c !== '');
       cbFiltered = [...new Set(cbFiltered)];
       const chars = await Promise.all(cbFiltered.map((c) => fetchId(c)));

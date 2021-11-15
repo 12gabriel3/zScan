@@ -1,4 +1,4 @@
-const { contextBridge, ipcRenderer, clipboard } = require('electron');
+const { contextBridge, ipcRenderer, clipboard, shell } = require('electron');
 
 contextBridge.exposeInMainWorld('electron', {
   ipcRenderer: {
@@ -21,6 +21,11 @@ contextBridge.exposeInMainWorld('electron', {
     },
     removeListener(channel, listener) {
       ipcRenderer.removeListener(channel, listener);
+    },
+  },
+  shell: {
+    openExternal(url) {
+      shell.openExternal(url);
     },
   },
   clipboard: {

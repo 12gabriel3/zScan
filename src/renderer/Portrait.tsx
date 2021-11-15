@@ -2,7 +2,6 @@
 import AlliancePortrait from './AlliancePortrait';
 import CorpPortrait from './CorpPortrait';
 import styles from './Portrait.module.css';
-
 interface PortraitProps {
   alliance_id?: string;
   corporation_id?: string;
@@ -18,6 +17,9 @@ export default function Portrait({
     <div className={`portraits ${styles.img}`}>
       <img
         src={`https://images.evetech.net/characters/${id}/portrait?size=64`}
+        onDoubleClick={() =>
+          window.electron.shell.openExternal(`https://zkillboard.com/character/${id}/`)
+        }
       />
       {corporation_id && <CorpPortrait id={corporation_id} />}
       {alliance_id && <AlliancePortrait id={alliance_id} />}
