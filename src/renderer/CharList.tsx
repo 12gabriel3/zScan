@@ -63,7 +63,13 @@ export default function CharList({ onSelect }: CharListProps) {
       if (first) setCharacters([first]);
       cbFiltered.slice(1).forEach(async (c) => {
         const id = await fetchId(c);
-        if (id) setCharacters((chars) => chars.concat(id));
+        if (id)
+          setCharacters((chars) =>
+            chars.concat(id).sort((a, b) => {
+              if (a.name.toLowerCase() < b.name.toLowerCase()) return -1;
+              return 1;
+            })
+          );
       });
     }
     getChars();
