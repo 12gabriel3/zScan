@@ -15,7 +15,9 @@
   <body>
     <a id="skip-to-content" href="#content">Skip to the content.</a>
 
-    <header class="page-header" role="banner">
+    <video width="1920" height="1080" controls>
+      <source src="./images/newdawn-splash-clean.webm" type="video/webm">
+    Your browser does not support the video tag.
       <h1 class="project-name">{{ page.title | default: site.title | default: site.github.repository_name }}</h1>
       <h2 class="project-tagline">{{ page.description | default: site.description | default: site.github.project_tagline }}</h2>
       {% if site.github.is_project_page %}
@@ -24,7 +26,7 @@
       {% if site.show_downloads %}
         <a href="{{ site.github.latest_release.assets[1].browser_download_url }}" class="btn">Download</a>
       {% endif %}
-    </header>
+    </video>
 
     <main id="content" class="main-content" role="main">
       {{ content }}
