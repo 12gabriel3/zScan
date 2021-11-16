@@ -15,7 +15,8 @@
   <body>
     <a id="skip-to-content" href="#content">Skip to the content.</a>
 
-    <video width="1920" height="1080" autoplay src="./images/newdawn-splash-clean.webm" type="video/webm">
+    <video width="1920" height="1080" autoplay>
+      <source src="./images/newdawn-splash-clean.webm" type="video/webm" />
       <h1 class="project-name">{{ page.title | default: site.title | default: site.github.repository_name }}</h1>
       <h2 class="project-tagline">{{ page.description | default: site.description | default: site.github.project_tagline }}</h2>
       {% if site.github.is_project_page %}
