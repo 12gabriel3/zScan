@@ -18,9 +18,9 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 
-title: [zScan]
-description: [An intel tool for EVE Online]
-show_downloads: [true]
+title: zScan
+description: An intel tool for EVE Online
+show_downloads: true
 # Build settings
 remote_theme: pages-themes/cayman@v0.2.0
 plugins:
