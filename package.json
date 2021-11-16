@@ -108,7 +108,7 @@
     "zkillboard",
     "zscan"
   ],
-  "homepage": "https://github.com/12gabriel3/zScan.git",
+  "homepage": "https://12gabriel3.github.io/zScan/",
   "jest": {
     "testURL": "http://localhost/",
     "testEnvironment": "jsdom",
