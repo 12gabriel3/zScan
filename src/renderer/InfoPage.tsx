@@ -1,7 +1,7 @@
 import { DateTime, DurationLikeObject } from 'luxon';
 import { useEffect, useState } from 'react';
 import Alert from './Alert';
-import Swagger, { Zkill } from './APICLient';
+import API from './APICLient';
 import Columns from './Columns';
 import Portrait from './Portrait';
 import Tooltip from './Tooltip';
@@ -10,7 +10,18 @@ import { Character } from './types';
 interface InfoPageProps {
   character: Character;
 }
+// interface Classification {
+//   name: string;
+//   score: number;
+// }
+// interface ClassificationDef {
+//   name: string;
+//   modules: number[];
+//   ships: number[];
+//   weight: number;
+// }
 
+// window.electron.store.get('classifications');
 const ONEMONTH = 2592000000;
 
 export default function InfoPage({ character }: InfoPageProps) {
@@ -20,30 +31,13 @@ export default function InfoPage({ character }: InfoPageProps) {
   // const [kills, setKills] = useState([]);
   useEffect(() => {
     async function fetchPublicInfo(character_id: number) {
-      const client = await Swagger;
-      const result = await client.apis.Character.get_characters_character_id({
-        character_id,
-      }).catch(() => null);
-      setPageInfo({ id: character_id, ...result.obj });
+      setPageInfo(await API.fetchCharacter(character_id));
     }
     // async function fetchKillsList(character_id: number) {
     //   return (await Zkill.kills(character_id)).map((k: any) => {
     //     return { killmail_id: k.killmail_id, killmail_hash: k.zkb.hash };
     //   });
     // }
-    async function fetchKM(id: any) {
-      const client = await Swagger;
-      return (
-        await client.apis.Killmails.get_killmails_killmail_id_killmail_hash(id)
-      ).obj;
-    }
-    async function fetchLossesList(character_id: number) {
-      return (await Zkill.losses(character_id))
-        .filter((k: any) => k.zkb.npc === false)
-        .map((k: any) => {
-          return { killmail_id: k.killmail_id, killmail_hash: k.zkb.hash };
-        });
-    }
     function isCyno(km: any) {
       const items: number[] = km.victim.items.map(
         (item: any) => item.item_type_id
@@ -71,13 +65,13 @@ export default function InfoPage({ character }: InfoPageProps) {
     }
 
     async function calculateKMInfo(character_id: number) {
-      const lossesList = await fetchLossesList(character_id);
+      const lossesList = await API.fetchLossesIds(character_id);
       let cyno = 0;
       let dictor = 0;
       let totalLosses = 0;
       await Promise.all(
         lossesList.reverse().map(async (km: any) => {
-          const kill = await fetchKM(km);
+          const kill = await API.fetchKM(km);
           if (isShip(kill)) {
             const timeFromNow =
               DateTime.now().toMillis() -
@@ -103,9 +97,9 @@ export default function InfoPage({ character }: InfoPageProps) {
       }
     }
 
-    if (character.id) {
-      fetchPublicInfo(character.id);
-      calculateKMInfo(character.id);
+    if (character.character_id) {
+      fetchPublicInfo(character.character_id);
+      calculateKMInfo(character.character_id);
     }
   }, [character]);
 
@@ -160,7 +154,7 @@ export default function InfoPage({ character }: InfoPageProps) {
         <Portrait
           alliance_id={pageInfo.alliance_id}
           corporation_id={pageInfo.corporation_id}
-          id={pageInfo.id}
+          id={pageInfo.character_id}
         />
         <div className="horizontal">
           <div className="text">{pageInfo.name}</div>

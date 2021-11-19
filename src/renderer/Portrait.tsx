@@ -5,8 +5,8 @@ import CorpPortrait from './CorpPortrait';
 import styles from './Portrait.module.css';
 
 interface PortraitProps {
-  alliance_id?: string;
-  corporation_id?: string;
+  alliance_id?: number;
+  corporation_id?: number;
   id: number;
 }
 

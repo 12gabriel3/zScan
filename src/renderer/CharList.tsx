@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import Swagger from './APICLient';
+import API from './APICLient';
 import styles from './CharList.module.css';
 import Item from './Item';
 import ResizeLeft from './ResizeLeft';
@@ -14,20 +14,8 @@ export default function CharList({ onSelect }: CharListProps) {
   const [clipboard, setClipboard] = useState('');
   const [selected, setSelected] = useState<Character | null>(null);
   const [characters, setCharacters] = useState<Character[]>([]);
-  useEffect(() => {
-    async function fetchId(name: string) {
-      const client = await Swagger;
-      const result = await client.apis.Search.get_search({
-        categories: 'character',
-        search: name,
-        strict: true,
-      }).catch(() => null);
-      if (result?.obj.character) {
-        return { name, id: result.obj.character[0] };
-      }
-      return null;
-    }
 
+  useEffect(() => {
     async function getChars() {
       let cbFiltered: string[] = [];
       if (clipboard.includes('</url>')) {
@@ -59,10 +47,10 @@ export default function CharList({ onSelect }: CharListProps) {
       }
       cbFiltered = cbFiltered.filter((c) => c !== '');
       cbFiltered = [...new Set(cbFiltered)];
-      const first = await fetchId(cbFiltered[0]);
+      const first = await API.fetchCharacterId(cbFiltered[0]);
       if (first) setCharacters([first]);
       cbFiltered.slice(1).forEach(async (c) => {
-        const id = await fetchId(c);
+        const id = await API.fetchCharacterId(c);
         if (id)
           setCharacters((chars) =>
             chars.concat(id).sort((a, b) => {
@@ -95,13 +83,13 @@ export default function CharList({ onSelect }: CharListProps) {
     const timer = clipboardSubscribe((txt) => setClipboard(txt));
     return () => clearInterval(timer);
   }, []);
-  const elements = characters.map(({ name, id }) => {
+  const elements = characters.map(({ name, character_id: id }) => {
     return (
       <Item
         key={name}
         characterName={name}
         className={name === selected?.name ? styles.selected : ''}
-        onClick={() => handleSelect({ name, id })}
+        onClick={() => handleSelect({ name, character_id: id })}
       />
     );
   });

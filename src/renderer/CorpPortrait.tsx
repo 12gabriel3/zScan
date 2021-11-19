@@ -1,29 +1,24 @@
 /* eslint-disable jsx-a11y/alt-text */
 import { useEffect, useState } from 'react';
-import Swagger from './APICLient';
+import API from './APICLient';
 import Tooltip from './Tooltip';
+import { Corporation } from './types';
 
 interface CorpPortraitProps {
-  id: string;
+  id: number;
 }
 
 export default function CorpPortrait({ id }: CorpPortraitProps) {
-  const [corp, setCorp] = useState<any>(null);
+  const [corp, setCorp] = useState<Corporation | null>(null);
 
   useEffect(() => {
-    async function fetchCorporation(cId: string) {
-      const client = await Swagger;
-      const result =
-        await client.apis.Corporation.get_corporations_corporation_id({
-          corporation_id: cId,
-        });
-      setCorp(result.obj);
-    }
-    fetchCorporation(id);
+    API.fetchCorporation(id)
+      .then((c) => setCorp(c))
+      .catch(() => null);
   }, [id]);
   return (
     <div className="corpWrapper">
-      <Tooltip content={corp?.name}>
+      <Tooltip content={corp?.name || ''}>
         <img
           className="corporationImage"
           src={`https://images.evetech.net/corporations/${id}/logo?tenant=tranquility&size=32`}

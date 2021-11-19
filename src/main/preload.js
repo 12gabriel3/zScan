@@ -1,4 +1,54 @@
 const { contextBridge, ipcRenderer, clipboard, shell } = require('electron');
+const Store = require('electron-store');
+
+const schema = {
+  classifications: {
+    type: 'array',
+    items: {
+      type: 'object',
+      properties: {
+        name: {
+          type: 'string',
+        },
+        icon: {
+          type: 'number',
+        },
+        items: {
+          type: 'array',
+          items: { type: 'number' },
+          default: [],
+        },
+        ships: {
+          type: 'array',
+          items: { type: 'number' },
+          default: [],
+        },
+        weight: {
+          type: 'number',
+          default: 1,
+        },
+      },
+    },
+  },
+};
+
+const defaults = {
+  classifications: [
+    {
+      name: 'cyno',
+      items: [21096, 28646],
+      weight: 10,
+      icon: 21096,
+    },
+    {
+      name: 'dictor',
+      items: [22782],
+      weight: 10,
+      icon: 22782,
+    },
+  ],
+};
+const store = new Store({ schema, defaults, name: 'classifications' });
 
 contextBridge.exposeInMainWorld('electron', {
   ipcRenderer: {
@@ -31,6 +81,14 @@ contextBridge.exposeInMainWorld('electron', {
   clipboard: {
     readText() {
       return clipboard.readText();
+    },
+  },
+  store: {
+    get(key) {
+      return store.get(key);
+    },
+    set(key, value) {
+      return store.set(value, key);
     },
   },
 });
